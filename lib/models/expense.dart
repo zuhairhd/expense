@@ -4,9 +4,7 @@ import 'package:uuid/uuid.dart';
 // import 'package:expnses_ex/models/def-category.dart' show Category; // Specify the correct import for Category class
 // create a new instance of Uuid
 const uuid = Uuid();
-
-
-
+// Create a new class called Expense
 class Expense{
   final String id;
   final String title;
