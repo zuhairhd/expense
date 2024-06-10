@@ -117,6 +117,23 @@ class _ExpensesState extends State<Expenses> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Expenses'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              // Add new expense
+              setState(() {
+                _expenses.add(
+                  Expense(
+                    title: 'New Expense',
+                    amount: 100.00,
+                    date: DateTime.now(),
+                    category: Account.children,
+                  ),
+                );
+              });
+            },
+          ),],
       ),
       body:  Center(
         child: Column(
