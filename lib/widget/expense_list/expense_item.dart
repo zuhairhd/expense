@@ -1,3 +1,4 @@
+import 'package:expnses_ex/models/Account.dart';
 import 'package:flutter/material.dart';
 import 'package:expnses_ex/models/expense.dart';
 
@@ -21,9 +22,9 @@ class ExpenseItem extends StatelessWidget {
               const Spacer(),
               Row(
                 children: [
-                  Icon(Icons.category),
+                  Icon(accountIcons[expense.category]),
                   const SizedBox(width: 10),
-                  Text(expense.date.toString()),
+                  Text(expense.formattedDate),
                   // Text(expense.category.name),
                 ],
               ),
