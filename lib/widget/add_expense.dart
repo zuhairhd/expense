@@ -1,3 +1,4 @@
+import 'package:expnses_ex/models/Account.dart';
 import 'package:expnses_ex/models/expense.dart';
 import 'package:flutter/material.dart';
 
@@ -22,21 +23,22 @@ class _AddExpenseState extends State<AddExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? _selectedDate;
- 
+  Account _selectedAccount = Account.children;
+
   void _presentDatePicker() async {
     final now = DateTime.now();
     final firstdate = DateTime(now.year - 1, now.month, now.day);
     final lastdate = DateTime(now.year + 1, now.month, now.day);
-    
+
     final pickedDate = await showDatePicker(
       context: context,
       initialDate: now,
       firstDate: firstdate,
       lastDate: lastdate,
     );
-      setState(() {
-        _selectedDate = pickedDate;
-      });
+    setState(() {
+      _selectedDate = pickedDate;
+    });
   }
 
   @override
@@ -67,7 +69,10 @@ class _AddExpenseState extends State<AddExpense> {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(_selectedDate == null ? 'No Date Selected' : formatedDate.format(_selectedDate!)) , // show the selected date here
+                Text(_selectedDate == null
+                    ? 'No Date Selected'
+                    : formatedDate
+                        .format(_selectedDate!)), // show the selected date here
                 IconButton(
                   icon: const Icon(Icons.calendar_today),
                   onPressed: _presentDatePicker,
@@ -85,13 +90,32 @@ class _AddExpenseState extends State<AddExpense> {
         //   items: [],
         //   onChanged: (value) {},
         // ),
+        const SizedBox(height: 25),
         Row(
           children: [
-            ElevatedButton(
+            DropdownButton(
+              value: _selectedAccount,
+              items: Account.values.map((cat) {
+                return DropdownMenuItem(
+                  value: cat,
+                  child: Text(cat.name.toUpperCase()),
+                );
+              }).toList(),
+              onChanged: (value) {
+                // Implement the function here
+                if (value == null) {
+                  return;
+                }
+                setState(() {
+                  _selectedAccount = value;
+                });
+              },
+            ),
+            const Spacer(),
+             ElevatedButton(
               onPressed: () {
                 // cancel the adding expense and go back to the list
                 Navigator.pop(context);
-
               },
               child: const Text('cancel'),
             ),
