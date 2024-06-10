@@ -1,3 +1,4 @@
+import 'package:expnses_ex/widget/add_expense.dart';
 import 'package:expnses_ex/widget/expense_list/expenses_list.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -112,6 +113,13 @@ class _ExpensesState extends State<Expenses> {
   //     category: exCategory.Category.clothing,
   //   ),
   // ];
+  void _openAddExpenseDialog() {
+    showModalBottomSheet(
+      context: context,
+      builder: (ctx) => AddExpense()
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,22 +128,25 @@ class _ExpensesState extends State<Expenses> {
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
-            onPressed: () {
-              // Add new expense
-              setState(() {
-                _expenses.add(
-                  Expense(
-                    title: 'New Expense',
-                    amount: 100.00,
-                    date: DateTime.now(),
-                    category: Account.children,
-                  ),
-                );
-              });
-            },
-          ),],
+            onPressed: _openAddExpenseDialog,
+            // onPressed: () {
+
+            //   // Add new expense
+            //   // setState(() {
+            //   //   _expenses.add(
+            //   //     Expense(
+            //   //       title: 'New Expense',
+            //   //       amount: 100.00,
+            //   //       date: DateTime.now(),
+            //   //       category: Account.children,
+            //   //     ),
+            //   //   );
+            //   // });
+            // },
+          ),
+        ],
       ),
-      body:  Center(
+      body: Center(
         child: Column(
           children: [
             const Text('Expenses chart will be here'),
