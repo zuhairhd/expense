@@ -41,6 +41,61 @@ class _AddExpenseState extends State<AddExpense> {
     });
   }
 
+  void _showAlertDialog({required String title,required String content}) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(title),
+        content: Text(content),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+            child: const Text('Okay'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  _submitExpenseData() {
+    final double enteredAmount;
+    try {
+       enteredAmount = double.parse(_amountController.text);
+    } catch (e) {
+      // show an alert dialog here
+      _showAlertDialog(title: 'Invalid Amount', content: 'Please enter a valid amount');
+      return;    
+    }
+    final amountIsValid =  enteredAmount > 0;
+    final titleIsValid = _titleController.text.trim().isNotEmpty;
+    final dateIsValid = _selectedDate != null;
+    // no need to check if the account is selected or not
+    // because the default value is already selected
+    // final accountIsValid = _selectedAccount != null;
+    final formIsValid = amountIsValid && titleIsValid && dateIsValid ;
+
+    if ( !formIsValid) {
+          //show an alert dialog here
+      _showAlertDialog(title: 'Invalid Input', content: 'Please enter valid data');
+      return;
+    }
+    final enteredTitle = _titleController.text;
+    // final enteredAmount = double.parse(_amountController.text);
+    final enteredDate = _selectedDate;
+
+    // final newExpense = Expense(
+    //   id: DateTime.now().toString(),
+    //   title: enteredTitle,
+    //   amount: enteredAmount,
+    //   date: enteredDate!,
+    //   account: _selectedAccount,
+    // );
+
+    // Navigator.of(context).pop(newExpense);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -121,6 +176,7 @@ class _AddExpenseState extends State<AddExpense> {
             ),
             ElevatedButton(
               onPressed: () {
+                _submitExpenseData();  
                 // Implement the function here
                 // print(_titleController.text + ' is added');
               },
