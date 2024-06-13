@@ -3,7 +3,10 @@ import 'package:expnses_ex/models/expense.dart';
 import 'package:flutter/material.dart';
 
 class AddExpense extends StatefulWidget {
-  const AddExpense({super.key});
+  const AddExpense(this.addExpense,{super.key});
+
+  final void Function(Expense) addExpense;
+
 
   @override
   State<AddExpense> createState() => _AddExpenseState();
@@ -85,15 +88,19 @@ class _AddExpenseState extends State<AddExpense> {
     // final enteredAmount = double.parse(_amountController.text);
     final enteredDate = _selectedDate;
 
-    // final newExpense = Expense(
-    //   id: DateTime.now().toString(),
-    //   title: enteredTitle,
-    //   amount: enteredAmount,
-    //   date: enteredDate!,
-    //   account: _selectedAccount,
-    // );
-
-    // Navigator.of(context).pop(newExpense);
+    final newExpense = Expense(
+      // id: DateTime.now().toString(),
+      title: enteredTitle,
+      amount: enteredAmount,
+      date: enteredDate!,
+      category: _selectedAccount,
+    );
+    // print(newExpense);
+    // add the new expense to the list
+     widget.addExpense(newExpense);
+    // close the add expense screen
+    Navigator.pop(context);
+    
   }
 
   @override

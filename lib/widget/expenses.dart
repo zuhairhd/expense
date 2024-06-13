@@ -17,6 +17,11 @@ class Expenses extends StatefulWidget {
 
 class _ExpensesState extends State<Expenses> {
   // List of expenses
+  void _addExpense(Expense expense) {
+    setState(() {
+      _expenses.add(expense);
+    });
+  }
   final List<Expense> _expenses = [
     Expense(
       title: 'Pay monthly Mazin expenses',
@@ -116,7 +121,7 @@ class _ExpensesState extends State<Expenses> {
   void _openAddExpenseDialog() {
     showModalBottomSheet(
       context: context,
-      builder: (ctx) => AddExpense()
+      builder: (ctx) => AddExpense(_addExpense)
     );
   }
 
