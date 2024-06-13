@@ -24,6 +24,7 @@ class _ExpensesState extends State<Expenses> {
   }
 
   removeAt(int index) {
+    final expense = _expenses[index];
     setState(() {
       _expenses.removeAt(index);
     });
@@ -35,7 +36,7 @@ class _ExpensesState extends State<Expenses> {
         label: 'UNDO',
         onPressed: () {
           setState(() {
-            _expenses.insert(index, _expenses[index]);
+            _expenses.insert(index, expense);
           });
         },
       ),
