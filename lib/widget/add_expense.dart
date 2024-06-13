@@ -3,10 +3,9 @@ import 'package:expnses_ex/models/expense.dart';
 import 'package:flutter/material.dart';
 
 class AddExpense extends StatefulWidget {
-  const AddExpense(this.addExpense,{super.key});
+  const AddExpense(this.addExpense, {super.key});
 
   final void Function(Expense) addExpense;
-
 
   @override
   State<AddExpense> createState() => _AddExpenseState();
@@ -44,7 +43,7 @@ class _AddExpenseState extends State<AddExpense> {
     });
   }
 
-  void _showAlertDialog({required String title,required String content}) {
+  void _showAlertDialog({required String title, required String content}) {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -65,23 +64,25 @@ class _AddExpenseState extends State<AddExpense> {
   _submitExpenseData() {
     final double enteredAmount;
     try {
-       enteredAmount = double.parse(_amountController.text);
+      enteredAmount = double.parse(_amountController.text);
     } catch (e) {
       // show an alert dialog here
-      _showAlertDialog(title: 'Invalid Amount', content: 'Please enter a valid amount');
-      return;    
+      _showAlertDialog(
+          title: 'Invalid Amount', content: 'Please enter a valid amount');
+      return;
     }
-    final amountIsValid =  enteredAmount > 0;
+    final amountIsValid = enteredAmount > 0;
     final titleIsValid = _titleController.text.trim().isNotEmpty;
     final dateIsValid = _selectedDate != null;
     // no need to check if the account is selected or not
     // because the default value is already selected
     // final accountIsValid = _selectedAccount != null;
-    final formIsValid = amountIsValid && titleIsValid && dateIsValid ;
+    final formIsValid = amountIsValid && titleIsValid && dateIsValid;
 
-    if ( !formIsValid) {
-          //show an alert dialog here
-      _showAlertDialog(title: 'Invalid Input', content: 'Please enter valid data');
+    if (!formIsValid) {
+      //show an alert dialog here
+      _showAlertDialog(
+          title: 'Invalid Input', content: 'Please enter valid data');
       return;
     }
     final enteredTitle = _titleController.text;
@@ -97,10 +98,9 @@ class _AddExpenseState extends State<AddExpense> {
     );
     // print(newExpense);
     // add the new expense to the list
-     widget.addExpense(newExpense);
+    widget.addExpense(newExpense);
     // close the add expense screen
     Navigator.pop(context);
-    
   }
 
   @override
@@ -153,28 +153,30 @@ class _AddExpenseState extends State<AddExpense> {
         //   onChanged: (value) {},
         // ),
         const SizedBox(height: 25),
+        DropdownButton(
+          value: _selectedAccount,
+          items: Account.values.map((cat) {
+            return DropdownMenuItem(
+              value: cat,
+              child: Text(cat.name.toUpperCase()),
+            );
+          }).toList(),
+          onChanged: (value) {
+            // Implement the function here
+            if (value == null) {
+              return;
+            }
+            setState(() {
+              _selectedAccount = value;
+            });
+          },
+        ),
+        SizedBox(height: 20),
+
         Row(
           children: [
-            DropdownButton(
-              value: _selectedAccount,
-              items: Account.values.map((cat) {
-                return DropdownMenuItem(
-                  value: cat,
-                  child: Text(cat.name.toUpperCase()),
-                );
-              }).toList(),
-              onChanged: (value) {
-                // Implement the function here
-                if (value == null) {
-                  return;
-                }
-                setState(() {
-                  _selectedAccount = value;
-                });
-              },
-            ),
             const Spacer(),
-             ElevatedButton(
+            ElevatedButton(
               onPressed: () {
                 // cancel the adding expense and go back to the list
                 Navigator.pop(context);
@@ -183,7 +185,7 @@ class _AddExpenseState extends State<AddExpense> {
             ),
             ElevatedButton(
               onPressed: () {
-                _submitExpenseData();  
+                _submitExpenseData();
                 // Implement the function here
                 // print(_titleController.text + ' is added');
               },

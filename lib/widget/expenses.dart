@@ -22,6 +22,30 @@ class _ExpensesState extends State<Expenses> {
       _expenses.add(expense);
     });
   }
+
+  removeAt(int index) {
+    setState(() {
+      _expenses.removeAt(index);
+    });
+  ScaffoldMessenger.of(context).showSnackBar(
+     SnackBar(
+      content: const Text('Expense removed'),
+      duration: const Duration(seconds: 2),
+      action: SnackBarAction(
+        label: 'UNDO',
+        onPressed: () {
+          setState(() {
+            _expenses.insert(index, _expenses[index]);
+          });
+        },
+      ),
+
+      // +++++++++++++++++++++++++++
+    ),
+  );
+
+  }
+
   final List<Expense> _expenses = [
     Expense(
       title: 'Pay monthly Mazin expenses',
@@ -120,13 +144,22 @@ class _ExpensesState extends State<Expenses> {
   // ];
   void _openAddExpenseDialog() {
     showModalBottomSheet(
-      context: context,
-      builder: (ctx) => AddExpense(_addExpense)
-    );
+        isScrollControlled: true,
+        context: context,
+        builder: (ctx) => AddExpense(_addExpense));
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget mainContent = const Text('No expenses added yet!');
+    if (_expenses.isNotEmpty) {
+      mainContent = Expanded(
+        child: ExpensesList(
+          expenses: _expenses,
+          removeAt: removeAt,
+        ),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Expenses'),
@@ -155,7 +188,7 @@ class _ExpensesState extends State<Expenses> {
         child: Column(
           children: [
             const Text('Expenses chart will be here'),
-            Expanded(child: ExpensesList(expenses: _expenses)),
+            mainContent,
           ],
         ),
       ),
