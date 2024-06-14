@@ -28,6 +28,7 @@ class _ExpensesState extends State<Expenses> {
     setState(() {
       _expenses.removeAt(index);
     });
+  ScaffoldMessenger.of(context).clearSnackBars();
   ScaffoldMessenger.of(context).showSnackBar(
      SnackBar(
       content: const Text('Expense removed'),
@@ -168,20 +169,6 @@ class _ExpensesState extends State<Expenses> {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: _openAddExpenseDialog,
-            // onPressed: () {
-
-            //   // Add new expense
-            //   // setState(() {
-            //   //   _expenses.add(
-            //   //     Expense(
-            //   //       title: 'New Expense',
-            //   //       amount: 100.00,
-            //   //       date: DateTime.now(),
-            //   //       category: Account.children,
-            //   //     ),
-            //   //   );
-            //   // });
-            // },
           ),
         ],
       ),
