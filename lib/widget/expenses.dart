@@ -153,7 +153,8 @@ class _ExpensesState extends State<Expenses> {
 
   @override
   Widget build(BuildContext context) {
-    Widget mainContent = const Text('No expenses added yet!');
+
+    Widget mainContent =  Text('No expenses added yet!', style: Theme.of(context).textTheme.titleLarge);
     if (_expenses.isNotEmpty) {
       mainContent = Expanded(
         child: ExpensesList(
